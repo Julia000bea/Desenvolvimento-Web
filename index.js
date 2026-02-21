@@ -77,6 +77,7 @@ app.put("/usuarios/:id", (req, res) => {
 // 4) PATCH /usuarios/:id
 app.patch("/usuarios/:id", (req, res) => {
     const id = Number(req.params.id);
+    console.log("PATCH executado");
     if (!Number.isInteger(id)) {
         return res.status(400).json({ erro: "id inválido" });
     }

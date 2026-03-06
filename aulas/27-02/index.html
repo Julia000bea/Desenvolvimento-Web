@@ -1,112 +1,94 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Perfil - Nikola Tesla</title>
-  </head>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil - Nikola Tesla</title>
+</head>
 
-  <body>
-    <header>
-      <h1>Grandes Inventores</h1>
+<body>
 
-      <nav>
-        <a href="#perfil">Perfil</a> |
-        <a href="#formulario">Formulário</a> |
-        <a href="#comentarios">Comentários</a>
-      </nav>
+<header>
+<h1>Grandes Inventores</h1>
 
-      <hr />
-    </header>
+<nav>
+<a href="#perfil">Perfil</a> |
+<a href="#formulario">Formulário</a> |
+<a href="#comentarios">Comentários</a>
+</nav>
 
-    <main>
-      <!-- PERFIL -->
-      <section id="perfil">
-        <h2>Nikola Tesla</h2>
+<hr>
+</header>
 
-        <figure>
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/d/d4/N.Tesla.JPG"
-            alt="Foto de Nikola Tesla"
-            width="220"
-          />
-          <figcaption>Inventor e engenheiro (1856–1943).</figcaption>
-        </figure>
+<main>
 
-        <p>
-          Nikola Tesla foi um engenheiro e inventor sérvio-americano conhecido por
-          contribuições em eletricidade e magnetismo. Ele ajudou a desenvolver e
-          popularizar o sistema de corrente alternada (AC), usado até hoje na transmissão
-          de energia elétrica.
-        </p>
+<section id="perfil">
+<h2>Nikola Tesla</h2>
 
-        <p>
-          <strong>Áreas:</strong> Corrente Alternada, Motores Elétricos, Rádio e Inovação.
-        </p>
+<figure>
+<img
+src="https://upload.wikimedia.org/wikipedia/commons/d/d4/N.Tesla.JPG"
+alt="Foto de Nikola Tesla"
+width="220">
+<figcaption>Inventor e engenheiro (1856–1943).</figcaption>
+</figure>
 
-        <hr />
-      </section>
+<p>
+Nikola Tesla foi um engenheiro e inventor sérvio-americano conhecido por
+contribuições em eletricidade e magnetismo.
+</p>
 
-      <!-- FORMULÁRIO -->
-      <section id="formulario">
-        <h2>Envie um comentário</h2>
+<p>
+<strong>Áreas:</strong> Corrente Alternada, Motores Elétricos, Rádio e Inovação.
+</p>
 
-        <form action="#" method="post">
-          <p>
-            <label for="nome"><strong>Nome:</strong></label><br />
-            <input id="nome" name="nome" type="text" placeholder="Ex: Maria" />
-          </p>
+<hr>
+</section>
 
-          <p>
-            <label for="mensagem"><strong>Mensagem:</strong></label><br />
-            <textarea
-              id="mensagem"
-              name="mensagem"
-              rows="5"
-              cols="40"
-              placeholder="Escreva sua mensagem..."
-            ></textarea>
-          </p>
+<section id="formulario">
+<h2>Envie um comentário</h2>
 
-          <button type="submit">Enviar</button>
-          <button type="reset">Limpar</button>
-        </form>
+<form id="comentarioForm">
 
-        <hr />
-      </section>
+<p>
+<label for="nome"><strong>Nome:</strong></label><br>
+<input id="nome" type="text" placeholder="Ex: Maria" required>
+</p>
 
-      <!-- COMENTÁRIOS -->
-      <section id="comentarios">
-        <h2>Comentários</h2>
+<p>
+<label for="mensagem"><strong>Mensagem:</strong></label><br>
+<textarea
+id="mensagem"
+rows="5"
+cols="40"
+placeholder="Escreva sua mensagem..."
+required></textarea>
+</p>
 
-        <article>
-          <h3>Maria</h3>
-          <p><em>há 2 dias</em></p>
-          <p>Tesla foi um dos maiores inventores da história. Muito top!</p>
-        </article>
+<button type="submit">Enviar</button>
+<button type="reset">Limpar</button>
 
-        <hr />
+</form>
 
-        <article>
-          <h3>João</h3>
-          <p><em>ontem</em></p>
-          <p>Curti a organização com header/main/section/footer. Bem semântico.</p>
-        </article>
+<hr>
+</section>
 
-        <hr />
+<section id="comentarios">
+<h2>Comentários</h2>
 
-        <article>
-          <h3>Ana</h3>
-          <p><em>agora</em></p>
-          <p>Depois dá pra fazer uma página pra cada inventor e criar um menu.</p>
-        </article>
-      </section>
-    </main>
+<div id="listaComentarios"></div>
 
-    <hr />
+</section>
 
-    <footer>
-      <p>© 2026 - Página criada para aula de Desenvolvimento Web</p>
-    </footer>
-  </body>
+</main>
+
+<hr>
+
+<footer>
+<p>© 2026 - Página criada para aula de Desenvolvimento Web</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
 </html>

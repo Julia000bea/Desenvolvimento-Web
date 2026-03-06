@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exemplo de Display</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      line-height: 1.5;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    section {
+      margin-bottom: 40px;
+      padding: 20px;
+      border: 2px solid #ccc;
+      background-color: #f9f9f9;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    .explicacao {
+      margin-bottom: 15px;
+    }
+
+    .caixa {
+      background-color: #dbeafe;
+      border: 2px solid #2563eb;
+      padding: 10px;
+      margin: 10px;
+    }
+
+    .block {
+      display: block;
+      width: 220px;
+    }
+
+    .inline {
+      display: inline;
+    }
+
+    .inline-block {
+      display: inline-block;
+      width: 150px;
+      height: 60px;
+      vertical-align: top;
+    }
+
+    .area-demo {
+      padding: 10px;
+      border: 1px dashed #999;
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Exemplos da Propriedade Display</h1>
+
+  <section>
+    <h2>Display: block</h2>
+    <p class="explicacao">
+      Elementos com <strong>display: block</strong> ocupam toda a linha e quebram para a próxima.
+    </p>
+
+    <div class="area-demo">
+      <div class="caixa block">Elemento block 1</div>
+      <div class="caixa block">Elemento block 2</div>
+      <div class="caixa block">Elemento block 3</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Display: inline</h2>
+    <p class="explicacao">
+      Elementos com <strong>display: inline</strong> ficam na mesma linha e ocupam apenas o espaço do conteúdo.
+    </p>
+
+    <div class="area-demo">
+      <span class="caixa inline">Inline 1</span>
+      <span class="caixa inline">Inline 2</span>
+      <span class="caixa inline">Inline 3</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Display: inline-block</h2>
+    <p class="explicacao">
+      Elementos com <strong>display: inline-block</strong> ficam na mesma linha, mas aceitam largura, altura, margem e padding.
+    </p>
+
+    <div class="area-demo">
+      <div class="caixa inline-block">Inline-block 1</div>
+      <div class="caixa inline-block">Inline-block 2</div>
+      <div class="caixa inline-block">Inline-block 3</div>
+    </div>
+  </section>
+</body>
+</html>

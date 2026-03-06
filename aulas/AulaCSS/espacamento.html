@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controle de Espaçamento</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+padding:40px;
+}
+
+h1{
+margin-bottom:30px;
+}
+
+.controles{
+margin-bottom:30px;
+}
+
+label{
+display:block;
+margin-top:10px;
+}
+
+#caixa{
+background-color:#f0f0f0;
+border:3px solid black;
+padding:20px;
+margin:20px;
+width:300px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Controle de Espaçamento</h1>
+
+<div class="controles">
+
+<label>
+Padding:
+<input type="range" id="paddingControl" min="0" max="100" value="20">
+</label>
+
+<label>
+Margin:
+<input type="range" id="marginControl" min="0" max="100" value="20">
+</label>
+
+<label>
+Border:
+<input type="range" id="borderControl" min="0" max="20" value="3">
+</label>
+
+</div>
+
+<div id="caixa">
+Este é um exemplo de div para demonstrar padding, border e margin.
+</div>
+
+<script>
+
+const caixa = document.getElementById("caixa")
+
+const paddingControl = document.getElementById("paddingControl")
+const marginControl = document.getElementById("marginControl")
+const borderControl = document.getElementById("borderControl")
+
+paddingControl.addEventListener("input",()=>{
+caixa.style.padding = paddingControl.value + "px"
+})
+
+marginControl.addEventListener("input",()=>{
+caixa.style.margin = marginControl.value + "px"
+})
+
+borderControl.addEventListener("input",()=>{
+caixa.style.borderWidth = borderControl.value + "px"
+})
+
+</script>
+
+</body>
+</html>

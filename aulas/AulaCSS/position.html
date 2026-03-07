@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exemplo de Position</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+padding:40px;
+height:1500px;
+}
+
+h1{
+margin-bottom:30px;
+}
+
+/* container para absolute */
+.container{
+position:relative;
+border:2px dashed #666;
+height:200px;
+margin-bottom:40px;
+padding:20px;
+}
+
+/* caixa padrão */
+.caixa{
+width:120px;
+height:60px;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-weight:bold;
+}
+
+/* relative */
+.relative{
+background:#3b82f6;
+position:relative;
+top:20px;
+left:40px;
+}
+
+/* absolute */
+.absolute{
+background:#16a34a;
+position:absolute;
+top:20px;
+right:20px;
+}
+
+/* fixed */
+.fixed{
+background:#ef4444;
+position:fixed;
+bottom:20px;
+right:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>CSS Position</h1>
+
+<h2>Position: Relative</h2>
+<div class="caixa relative">
+relative
+</div>
+
+<p>
+Este elemento foi deslocado usando <strong>top</strong> e <strong>left</strong>
+em relação à sua posição original.
+</p>
+
+
+<h2>Position: Absolute</h2>
+
+<div class="container">
+
+<p>Container com <strong>position: relative</strong></p>
+
+<div class="caixa absolute">
+absolute
+</div>
+
+</div>
+
+<p>
+O elemento absolute usa <strong>top</strong> e <strong>right</strong> em relação
+ao container.
+</p>
+
+
+<h2>Position: Fixed</h2>
+
+<p>
+Role a página para ver o elemento <strong>fixed</strong> preso na tela.
+</p>
+
+<div class="caixa fixed">
+fixed
+</div>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Style+Script&display=swap');
+
+.logo-fonte {
+    font-family: 'Style Script', cursive;
+    color: #e91e63; /* Cor rosa para o tema */
+}
+
+body {
+    background-color: #fffafb;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Modo Noturno Responsivo */
+[data-bs-theme="dark"] body { background-color: #121212; color: #fff; }
+[data-bs-theme="dark"] .card, [data-bs-theme="dark"] .navbar {
+    background-color: #1e1e1e !important;
+    border-color: #333 !important;
+}
+
+/* Imagens de Perfil */
+.post-avatar { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
+.profile-img-large { 
+    width: 150px; height: 150px; border-radius: 50%; 
+    object-fit: cover; border: 4px solid #fff; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+}
+
+/* Feedback Visual (Hover) */
+.btn-primary { background-color: #e91e63; border: none; transition: transform 0.2s; }
+.btn-primary:hover { background-color: #ad1457; transform: scale(1.05); }

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CartoonGram - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand border-bottom bg-body sticky-top mb-4">
+        <div class="container justify-content-between">
+            <a class="navbar-brand fw-bold fs-3 logo-fonte" href="index.html">CartoonGram</a>
+            <div class="navbar-nav gap-3 fs-4">
+                <a href="index.html" class="nav-link text-primary"><i class="bi bi-house-door-fill"></i></a>
+                <a href="pages/perfil.html" class="nav-link text-reset"><i class="bi bi-person-circle"></i></a>
+                <a href="pages/configuracao.html" class="nav-link text-reset"><i class="bi bi-gear"></i></a>
+                <a href="pages/login.html" class="nav-link text-danger"><i class="bi bi-box-arrow-right"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card mb-4 border-0 shadow-sm p-3">
+                    <div class="d-flex gap-2">
+                        <img src="https://img.quizur.com/f/img6019625ad2d8a2.14565371.jpg" class="post-avatar">
+                        <textarea id="textoPost" class="form-control border-0 bg-light" placeholder="Vamor refletir hoje?"></textarea>
+                    </div>
+                    <button class="btn btn-primary btn-sm mt-2 float-end fw-bold px-4" onclick="publicar()">Publicar</button>
+                </div>
+                <div id="feed"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- LÓGICA DO MODO NOTURNO (PERSISTÊNCIA) ---
+        // Assim que a página carrega, ela verifica se o tema está salvo no navegador
+        document.addEventListener("DOMContentLoaded", () => {
+            const temaSalvo = localStorage.getItem('tema');
+            if (temaSalvo === 'dark') {
+                document.documentElement.setAttribute('data-bs-theme', 'dark');
+            }
+        });
+
+        // --- FUNÇÃO DE PUBLICAR ---
+        function publicar() {
+            const t = document.getElementById('textoPost');
+            if(!t.value) return;
+            const post = `<div class="card mb-4 border-0 shadow-sm">
+                <div class="card-header bg-transparent border-0 d-flex align-items-center py-3">
+                    <img src="https://i.imgur.com/vH2R6X7.png" class="post-avatar me-2">
+                    <span class="fw-bold">Julia Beatriz</span>
+                </div>
+                <div class="card-body border-top">
+                    <p class="mb-0"><strong>Julia Beatriz</strong> ${t.value}</p>
+                </div>
+            </div>`;
+            document.getElementById('feed').insertAdjacentHTML('afterbegin', post);
+            t.value = '';
+        }
+    </script>
+</body>
+</html>

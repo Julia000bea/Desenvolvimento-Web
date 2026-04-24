@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - CartoonGram</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+  <div class="auth-container">
+    <div class="auth-card fade-in">
+
+```
+  <div class="text-center mb-4">
+    <h1 class="logo-fonte fs-1 mb-1">CartoonGram</h1>
+    <p class="text-muted small">Bem-vinda de volta! 👋</p>
+  </div>
+
+  <!-- ERRO -->
+  <div id="msgErro"
+       class="alert alert-danger d-none small py-2 rounded-3"
+       role="alert"
+       aria-live="assertive"></div>
+
+  <form id="loginForm">
+
+    <!-- USERNAME -->
+    <div class="mb-3">
+      <label for="username" class="form-label visually-hidden">Usuário</label>
+      <input type="text"
+             id="username"
+             class="form-control"
+             placeholder="Username"
+             required
+             autocomplete="username"
+             aria-label="Usuário">
+    </div>
+
+    <!-- SENHA -->
+    <div class="mb-3 position-relative">
+      <label for="password" class="form-label visually-hidden">Senha</label>
+      <input type="password"
+             id="password"
+             class="form-control"
+             placeholder="Senha"
+             required
+             autocomplete="current-password"
+             aria-label="Senha">
+
+      <button type="button"
+              class="btn p-0 position-absolute end-0 top-50 translate-middle-y me-3 border-0 bg-transparent text-muted"
+              aria-label="Mostrar ou esconder senha"
+              id="toggleSenhaBtn"
+              style="z-index:5">
+        <i class="bi bi-eye" id="eyeIcon"></i>
+      </button>
+    </div>
+
+    <!-- BOTÃO -->
+    <button type="submit"
+            id="btnLogin"
+            class="btn-pink w-100 py-2 mb-3">
+      Entrar
+    </button>
+
+  </form>
+
+  <div class="auth-divider">contas de teste</div>
+
+  <div class="mt-3 p-3 rounded-3"
+       style="background:var(--surface2); font-size:.8rem; font-family:monospace;">
+    <div><strong>admin</strong> / admin123 → Administrador</div>
+    <div><strong>julia</strong> / julia123 → Usuário comum</div>
+  </div>
+
+  <p class="text-center mt-4 small text-muted">
+    Não tens conta?
+    <a href="cadastro.html"
+       class="fw-bold text-decoration-none"
+       style="color:var(--pink)">
+       Registre-se
+    </a>
+  </p>
+
+</div>
+```
+
+  </div>
+
+  <script>
+    // Tema
+    const temaSalvo = localStorage.getItem('tema') || 'light';
+    document.documentElement.setAttribute('data-bs-theme', temaSalvo);
+
+    // Toggle senha
+    const toggleBtn = document.getElementById('toggleSenhaBtn');
+    toggleBtn.addEventListener('click', () => {
+      const inp = document.getElementById('password');
+      const icon = document.getElementById('eyeIcon');
+
+      const isPassword = inp.type === 'password';
+      inp.type = isPassword ? 'text' : 'password';
+      icon.className = isPassword ? 'bi bi-eye-slash' : 'bi bi-eye';
+    });
+
+    // Login
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const btn  = document.getElementById('btnLogin');
+      const erro = document.getElementById('msgErro');
+
+      erro.classList.add('d-none');
+      btn.textContent = 'Entrando...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include', // 🔥 ESSENCIAL PARA SESSION
+          body: JSON.stringify({
+            username: document.getElementById('username').value.trim(),
+            password: document.getElementById('password').value
+          })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          erro.textContent = data.erro || 'Usuário ou senha inválidos.';
+          erro.classList.remove('d-none');
+          return;
+        }
+
+        // salva usuário
+        if (data.usuario) {
+          sessionStorage.setItem('usuario', JSON.stringify(data.usuario));
+        }
+
+        window.location.href = '../index.html';
+
+      } catch (err) {
+        erro.textContent = 'Erro de conexão com o servidor.';
+        erro.classList.remove('d-none');
+      } finally {
+        btn.textContent = 'Entrar';
+        btn.disabled = false;
+      }
+    });
+  </script>
+
+</body>
+</html>

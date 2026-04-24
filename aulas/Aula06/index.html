@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CartoonGram</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+
+  <header>
+    <nav class="navbar">
+      <div class="container justify-content-between">
+        <a class="navbar-brand logo-fonte fs-3 text-decoration-none" href="index.html">CartoonGram</a>
+
+```
+    <div class="d-flex align-items-center gap-1">
+      <a href="index.html" class="nav-icon-btn active" title="Início" aria-label="Página inicial">
+        <i class="bi bi-house-door-fill"></i>
+      </a>
+
+      <a href="pages/perfil.html" class="nav-icon-btn" title="Perfil" aria-label="Perfil">
+        <i class="bi bi-person-circle"></i>
+      </a>
+
+      <a id="linkAdmin" href="pages/admin.html" class="nav-icon-btn d-none" title="Admin" aria-label="Área administrativa">
+        <i class="bi bi-shield-fill-check"></i>
+      </a>
+
+      <a href="pages/configuracao.html" class="nav-icon-btn" title="Configurações" aria-label="Configurações">
+        <i class="bi bi-gear"></i>
+      </a>
+
+      <button id="btnLogout"
+              class="nav-icon-btn danger border-0 bg-transparent"
+              title="Sair"
+              aria-label="Sair da conta">
+        <i class="bi bi-box-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+```
+
+  </header>
+
+  <main class="container py-3">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-6 col-lg-5">
+
+```
+    <!-- STORIES -->
+    <div class="stories-row">
+      <div class="story-item">
+        <div class="story-ring">
+          <img src="https://img.quizur.com/f/img6019625ad2d8a2.14565371.jpg" alt="Seu perfil" loading="lazy">
+        </div>
+        <span class="story-name">Você</span>
+      </div>
+
+      <div class="story-item">
+        <div class="story-ring">
+          <img src="https://i.pravatar.cc/150?img=12" alt="Foto de Marcos" loading="lazy">
+        </div>
+        <span class="story-name">Marcos</span>
+      </div>
+
+      <div class="story-item">
+        <div class="story-ring">
+          <img src="https://i.pravatar.cc/150?img=47" alt="Foto de Ana Clara" loading="lazy">
+        </div>
+        <span class="story-name">Ana Clara</span>
+      </div>
+
+      <div class="story-item">
+        <div class="story-ring">
+          <img src="https://i.pravatar.cc/150?img=32" alt="Foto de Pedro" loading="lazy">
+        </div>
+        <span class="story-name">Pedro</span>
+      </div>
+    </div>
+
+    <!-- COMPOSER -->
+    <div class="composer-card">
+      <div class="d-flex gap-3 align-items-start">
+        <img id="avatarComposer"
+             src="https://img.quizur.com/f/img6019625ad2d8a2.14565371.jpg"
+             class="post-avatar-sm mt-1"
+             alt="Seu avatar">
+
+        <textarea id="textoPost"
+                  rows="2"
+                  placeholder="O que está acontecendo?"></textarea>
+      </div>
+
+      <div class="composer-divider"></div>
+
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex gap-2">
+
+          <button class="action-btn"
+                  aria-label="Adicionar imagem"
+                  title="Adicionar imagem">
+            <i class="bi bi-image" style="color:var(--pink)"></i>
+          </button>
+
+          <button class="action-btn"
+                  aria-label="Adicionar emoji"
+                  title="Adicionar emoji">
+            <i class="bi bi-emoji-smile" style="color:#f59e0b"></i>
+          </button>
+
+        </div>
+
+        <button id="btnPublicar" class="btn-pink" disabled>
+          Publicar
+        </button>
+      </div>
+    </div>
+
+    <!-- FEED -->
+    <section id="feed"></section>
+
+  </div>
+</div>
+```
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const textoPost   = document.getElementById('textoPost');
+    const btnPublicar = document.getElementById('btnPublicar');
+
+    // Ativa/desativa botão
+    textoPost.addEventListener('input', () => {
+      btnPublicar.disabled = textoPost.value.trim() === '';
+    });
+
+    // Publicar post fake (frontend)
+    btnPublicar.addEventListener('click', () => {
+      const feed = document.getElementById('feed');
+
+      const post = document.createElement('div');
+      post.className = 'post-card mt-3 p-3 border rounded';
+      post.innerText = textoPost.value;
+
+      feed.prepend(post);
+
+      textoPost.value = '';
+      btnPublicar.disabled = true;
+    });
+
+    // Logout
+    document.getElementById('btnLogout').addEventListener('click', async () => {
+      await fetch('/auth/logout');
+      sessionStorage.clear();
+      window.location.href = 'pages/login.html';
+    });
+
+    // Verifica sessão
+    async function verificarSessao() {
+      try {
+        const res = await fetch('/auth/me');
+
+        if (!res.ok) throw new Error();
+
+        const data = await res.json();
+        const u = data.usuario;
+
+        sessionStorage.setItem('usuario', JSON.stringify(u));
+
+        if (u.role === 'admin') {
+          document.getElementById('linkAdmin').classList.remove('d-none');
+        }
+
+      } catch {
+        window.location.href = 'pages/login.html';
+      }
+    }
+
+    verificarSessao();
+  </script>
+
+</body>
+</html>

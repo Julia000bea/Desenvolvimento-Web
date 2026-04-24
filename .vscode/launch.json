@@ -6,6 +6,14 @@
     "configurations": [
         
         {
+            "type": "node",
+            "request": "launch",
+            "name": "Run node-gyp",
+            "runtimeExecutable": "node-gyp",
+            "cwd": "${workspaceFolder}",
+            "args": []
+        },
+        {
             "name": "Attach to Chrome",
             "port": 9222,
             "request": "attach",

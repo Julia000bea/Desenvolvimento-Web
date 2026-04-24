@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel de Visualização</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #1a1a2e;
+      --text: #e2e8f0;
+      --accent: #7c3aed;
+      --accent2: #06b6d4;
+      --accent3: #f59e0b;
+      --muted: #64748b;
+    }
+
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+      transition: background 0.5s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Partículas de fundo */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      animation: float-particle linear infinite;
+    }
+
+    @keyframes float-particle {
+      from { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      to   { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Badge de identificação */
+    .viz-badge {
+      position: fixed;
+      top: 1rem; right: 1rem;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 0.3rem 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      z-index: 100;
+    }
+
+    /* Elemento principal de exibição */
+    .display-area {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    #main-text {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      text-align: center;
+      color: var(--text);
+      transition: font-size 0.3s ease, color 0.3s;
+      word-break: break-word;
+      max-width: 90vw;
+      line-height: 1.1;
+      cursor: pointer;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    #main-text:hover {
+      color: var(--accent2);
+    }
+
+    /* Área de hover */
+    .hover-indicator {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      background: radial-gradient(ellipse at center, rgba(6,182,212,0.12) 0%, transparent 70%);
+      transition: opacity 0.4s ease;
+    }
+    .hover-indicator.active { opacity: 1; }
+
+    /* Indicador de último evento */
+    .event-indicator {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 0.5rem 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent2);
+      max-width: 90vw;
+      text-align: center;
+      transition: opacity 0.3s;
+      opacity: 0;
+    }
+    .event-indicator.visible { opacity: 1; }
+
+    /* Modo escuro / claro */
+    body.modo-claro {
+      --bg: #f8fafc;
+      --text: #0f172a;
+      background: #f8fafc;
+    }
+
+    /* ── Animações ── */
+    @keyframes anim-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+    }
+    @keyframes anim-spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes anim-bounce {
+      0%, 100% { transform: translateY(0); }
+      30%      { transform: translateY(-30px); }
+      60%      { transform: translateY(-15px); }
+    }
+    @keyframes anim-shake {
+      0%, 100% { transform: translateX(0); }
+      20%      { transform: translateX(-12px); }
+      40%      { transform: translateX(12px); }
+      60%      { transform: translateX(-6px); }
+      80%      { transform: translateX(6px); }
+    }
+    @keyframes anim-float {
+      0%, 100% { transform: translateY(0px); }
+      50%      { transform: translateY(-20px); }
+    }
+
+    #main-text.pulse  { animation: anim-pulse  1.2s ease-in-out infinite; }
+    #main-text.spin   { animation: anim-spin   2s linear infinite; }
+    #main-text.bounce { animation: anim-bounce 1s ease infinite; }
+    #main-text.shake  { animation: anim-shake  0.6s ease infinite; }
+    #main-text.float  { animation: anim-float  2.5s ease-in-out infinite; }
+
+    /* Flash ao receber mensagem */
+    @keyframes flash-border {
+      0%   { box-shadow: 0 0 0 0 rgba(124,58,237,0.8); }
+      50%  { box-shadow: 0 0 0 20px rgba(124,58,237,0); }
+      100% { box-shadow: 0 0 0 0 rgba(124,58,237,0); }
+    }
+    body.flash { animation: flash-border 0.4s ease forwards; }
+  </style>
+</head>
+<body>
+
+  <!-- Partículas -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Overlay de hover -->
+  <div class="hover-indicator" id="hover-overlay"></div>
+
+  <!-- Identificação -->
+  <div class="viz-badge">VISUALIZADOR</div>
+
+  <!-- Conteúdo principal -->
+  <div class="display-area">
+    <div id="main-text">Aguardando…</div>
+  </div>
+
+  <!-- Último evento recebido -->
+  <div class="event-indicator" id="event-indicator"></div>
+
+<script>
+  const mainText     = document.getElementById('main-text');
+  const hoverOverlay = document.getElementById('hover-overlay');
+  const eventInd     = document.getElementById('event-indicator');
+  let indicatorTimer = null;
+
+  // ─── Partículas de fundo ──────────────────────────────────────
+  const particlesEl = document.getElementById('particles');
+  for (let i = 0; i < 25; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (8 + Math.random() * 14) + 's';
+    p.style.animationDelay = (-Math.random() * 20) + 's';
+    p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+    p.style.opacity = 0.05 + Math.random() * 0.2;
+    particlesEl.appendChild(p);
+  }
+
+  // ─── Mostrar indicador de evento ─────────────────────────────
+  function mostrarEvento(msg) {
+    eventInd.textContent = '⟵ ' + msg;
+    eventInd.classList.add('visible');
+    clearTimeout(indicatorTimer);
+    indicatorTimer = setTimeout(() => eventInd.classList.remove('visible'), 2500);
+  }
+
+  // ─── Flash ao receber mensagem ────────────────────────────────
+  function flashBody() {
+    document.body.classList.remove('flash');
+    void document.body.offsetWidth; // reflow
+    document.body.classList.add('flash');
+  }
+
+  // ─── Aplicar animação ─────────────────────────────────────────
+  function setAnimacao(nome) {
+    mainText.className = '';
+    if (nome !== 'none') mainText.classList.add(nome);
+  }
+
+  // ─── Receber mensagens (postMessage) ─────────────────────────
+  window.addEventListener('message', (event) => {
+    // Segurança: aceitar apenas da própria origem (ou * em dev)
+    // if (event.origin !== 'http://localhost:3000') return;
+
+    const { tipo, valor, ativo, estado } = event.data || {};
+    flashBody();
+
+    switch (tipo) {
+      case 'COR_FUNDO':
+        document.body.style.setProperty('--bg', valor);
+        document.body.style.background = valor;
+        mostrarEvento(`COR_FUNDO → ${valor}`);
+        break;
+
+      case 'TAMANHO_TEXTO':
+        mainText.style.fontSize = valor + 'px';
+        mostrarEvento(`TAMANHO_TEXTO → ${valor}px`);
+        break;
+
+      case 'TEXTO':
+        mainText.textContent = valor || 'Aguardando…';
+        mostrarEvento(`TEXTO → "${valor}"`);
+        break;
+
+      case 'ANIMACAO':
+        setAnimacao(valor);
+        mostrarEvento(`ANIMACAO → ${valor}`);
+        break;
+
+      case 'HOVER':
+        if (estado === 'enter') {
+          hoverOverlay.classList.add('active');
+          mostrarEvento('HOVER → enter');
+        } else {
+          hoverOverlay.classList.remove('active');
+          mostrarEvento('HOVER → leave');
+        }
+        break;
+
+      case 'MODO_ESCURO':
+        if (ativo) {
+          document.body.classList.remove('modo-claro');
+          mostrarEvento('CustomEvent → modoEscuro: ativo');
+        } else {
+          document.body.classList.add('modo-claro');
+          mostrarEvento('CustomEvent → modoEscuro: inativo (modo claro)');
+        }
+        break;
+
+      case 'RESET':
+        mainText.textContent = 'Aguardando…';
+        mainText.style.fontSize = '36px';
+        mainText.className = '';
+        document.body.style.background = '#1a1a2e';
+        document.body.classList.remove('modo-claro');
+        hoverOverlay.classList.remove('active');
+        mostrarEvento('RESET → estado reiniciado');
+        break;
+    }
+  });
+
+  // ─── Comunicação bidirecional: click no texto envia de volta ──
+  mainText.addEventListener('click', () => {
+    const dado = mainText.textContent;
+    window.parent.postMessage(
+      { tipo: 'CLIQUE_VISUALIZADOR', dado },
+      '*'
+    );
+    // Evento customizado local no visualizador
+    const ev = new CustomEvent('textoClicado', { detail: { texto: dado } });
+    document.dispatchEvent(ev);
+    mostrarEvento(`↑ postMessage enviado ao controle`);
+  });
+
+  document.addEventListener('textoClicado', (e) => {
+    console.log('[CustomEvent local] textoClicado:', e.detail);
+  });
+
+  // ─── Notifica o controle que está pronto ─────────────────────
+  window.parent.postMessage({ tipo: 'PRONTO' }, '*');
+</script>
+</body>
+</html>
